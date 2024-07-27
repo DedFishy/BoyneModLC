@@ -18,6 +18,8 @@ using UnityEngine.SceneManagement;
 namespace BoyneMod
 {
     [BepInPlugin(modGUID, modName, modVersion)] // Creating the plugin
+    [BepInDependency(LethalLib.Plugin.ModGUID)]
+    [BepInDependency(MoreCompany.PluginInformation.PLUGIN_GUID)]
     public class BoyneMod : BaseUnityPlugin // MODNAME : BaseUnityPlugin
     {
         public const string modGUID = "dedfishy.boynemod"; // a unique name for your mod
@@ -53,10 +55,17 @@ It may be bad, but at least it's not the thick woman mod!
 
             BepInExLogSource.LogMessage("Registering MonoMod patches...");
 
-            On.DunGen.DungeonGenerator.Generate += DungeonGenerator_Generate;
+            On.DunGen.DungeonGenerator.Generate += DungeonGenerator_Generate; // Doesn't seem to work :(
+            
 
             BepInExLogSource.LogMessage("Installing MoreCompany cosmetics...");
-            File.Copy(assetMurderer.getAssetPath("boyne.cosmetics"), assetMurderer.getMoreCompanyCosmeticsPath() + "boyne.cosmetics");
+
+            string targetCosmeticFile = assetMurderer.getMoreCompanyCosmeticsPath() + "boyne.cosmetics";
+            if (!File.Exists(targetCosmeticFile)) {
+                File.Copy(assetMurderer.getAssetPath("boyne.cosmetics"), targetCosmeticFile);
+            }
+
+            LethalLib.Modules.Player.
             
             
 
@@ -229,6 +238,7 @@ It may be bad, but at least it's not the thick woman mod!
             if (headerImageObj != null) {
 
                 assetMurderer.UpdateTextureImage("headerImage.png", headerImageObj.GetComponent<UnityEngine.UI.Image>().sprite.texture);
+                headerImageObj.name = "boynestolethisheaderimage"; // This prevents More Company from changing the header image because I'm petty
 
             }
 
