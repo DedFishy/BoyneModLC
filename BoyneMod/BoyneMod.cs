@@ -22,6 +22,9 @@ namespace BoyneMod
     [BepInDependency(MoreCompany.PluginInformation.PLUGIN_GUID)]
     public class BoyneMod : BaseUnityPlugin // MODNAME : BaseUnityPlugin
     {
+
+        public static AssetBundle Rocktopus;
+
         public const string modGUID = "dedfishy.boynemod"; // a unique name for your mod
         public const string modName = "BoyneMod"; // the name of your mod
         public const string modVersion = "1.0.0.0"; // the version of your mod
@@ -65,7 +68,8 @@ It may be bad, but at least it's not the thick woman mod!
                 File.Copy(assetMurderer.getAssetPath("boyne.cosmetics"), targetCosmeticFile);
             }
 
-            LethalLib.Modules.Player.
+            BepInExLogSource.LogMessage("Loading asset bundles...");
+            Rocktopus = AssetBundle.LoadFromFile(assetMurderer.getAssetPath("rocktopus"));
             
             
 
